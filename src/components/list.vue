@@ -16,16 +16,16 @@ class Node {
 
 class List {
     constructor() {
-        this.head = null;
+        this.head = new Node(null,null,null);
         this.length = 0;
     }
 
     AddNode(derectionX, derectionY) {
         console.log("added a node to " + this);
 
-
         if (!this.head) {
-            head = new Node(null, null, null);
+            headnode = new Node(null, null, null);
+            this.head = headnode;
         }
 
         newnode = new Node(derectionX, derectionY);
@@ -38,8 +38,7 @@ class List {
 
     RefreshList(myList) {
         console.log("refreshed the list:" + myList);
-
-    }
+    };
 }
 
 
@@ -56,7 +55,13 @@ export default {
     },
 
     methods: {
-
+        // handleMouseMove() {
+        //     this.clientX = e.clientX;
+        //     this.clientY = e.clientY;
+        // }
+    },
+    mounted() {
+        // window.addEventListener("mousemove", this.handleMouseMove)
     },
 
     created() {
@@ -65,8 +70,6 @@ export default {
         }
     }
 }
-
-
 </script>
 
 <style scoped>
