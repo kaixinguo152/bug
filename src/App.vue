@@ -22,9 +22,9 @@ export default {
   },
 
   methods: {
-    handleMouseMove() {
-      this.derectionX_mouse = e.clientX,
-      
+    handleMouseMove(e) {
+      this.derectionX_mouse = e.clientX;
+      this.derectionY_mouse = e.clientY;
     }
   },
 }
