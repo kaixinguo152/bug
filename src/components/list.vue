@@ -6,6 +6,15 @@
 
 <script>
 import node from "./node.vue";
+// import { defineProps } from "vue";
+
+// const props = defineProps({
+//     InformationMouse: {
+//         type: Object,
+//         default: () => ({ derectionX_mouse: 0, derectionY_mouse: 0 }),
+//     }
+// })
+
 class Node {
     constructor(derectionX, derectionY) {
         this.derectionX = derectionX;
@@ -16,7 +25,7 @@ class Node {
 
 class List {
     constructor() {
-        this.head = new Node(null,null,null);
+        this.head = new Node(null, null, null);
         this.length = 0;
     }
 
@@ -24,15 +33,13 @@ class List {
         console.log("added a node to " + this);
 
         if (!this.head) {
-            headnode = new Node(null, null, null);
-            this.head = headnode;
+            this.head = new Node(null, null, null);
         }
 
-        newnode = new Node(derectionX, derectionY);
-        while (this.head.next != null) {
-            this.head = List.head.next;
+        while (this.head.next) {
+            this.head = this.head.next;
         }
-        this.head.next = newnode;
+        this.head.next = new Node(0, 0);
         this.length++;
     };
 
@@ -45,9 +52,17 @@ class List {
 export default {
     name: "list",
 
+    props: {
+        InformationMouse: {
+            type: Object,
+            default: () => ({}),
+        }
+    },
+
     components: {
         node,
     },
+
     data() {
         return {
             bug: new List(),

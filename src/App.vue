@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+    <list :InformationMouse="InformationMouse"></list>
   </div>
 </template>
 
@@ -12,8 +12,10 @@ export default {
   },
   data() {
     return {
-      derectionX_mouse,
-      derectionY_mouse,
+      InformationMouse: {
+        derectionX_mouse: 0,
+        derectionY_mouse: 0,
+      }
     }
   },
 
@@ -23,8 +25,12 @@ export default {
 
   methods: {
     handleMouseMove(e) {
-      this.derectionX_mouse = e.clientX;
-      this.derectionY_mouse = e.clientY;
+      setInterval(() => {
+        console.log(e.clientX, e.clientY);
+      }, 50);
+
+      this.information_mouse.derectionX_mouse = e.clientX;
+      this.information_mouse.derectionY_mouse = e.clientY;
     }
   },
 }
