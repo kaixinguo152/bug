@@ -48,6 +48,7 @@ export default {
   width: 100vw;
   height: 100vh;
   background-color: black;
+  margin: 10px;
   padding: 10px;
   border: 2px solid red;
 }

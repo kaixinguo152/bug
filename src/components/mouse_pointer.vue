@@ -1,5 +1,13 @@
 <template>
-  <div class="mouse_pointer"></div>
+  <div class="container_mouse_pointer">
+    <img
+      src="../assets/mouse_pointer.svg"
+      alt="mouse_pointer"
+      class="mouse_pointer"
+      ref="mouse_pointer"
+      @mousemove="handle_mousemove()"
+    />
+  </div>
 </template>
 
 <script>
@@ -13,12 +21,7 @@ export default {
     },
   },
 
-  mounted() {
-    // setInterval(() => {
-    //   this.updatePosition();
-    // }, 5);
-    window.addEventListener("mousemove", this.updatePosition);
-  },
+  mounted() {},
 
   methods: {
     updatePosition() {
@@ -26,18 +29,24 @@ export default {
       mousePointer.style.left = `${this.InformationMouse.derectionX_mouse}px`;
       mousePointer.style.top = `${this.InformationMouse.derectionY_mouse}px`;
     },
+
+    handle_mousemove() {
+      const mousePointer = this.$refs.mousePointer;
+      mousePointer.style.backgroundColor = "green";
+      this.updatePosition();
+    },
   },
 };
 </script>
 
 <style scoped>
 .mouse_pointer {
-  width: 2px;
-  height: 2px;
-  background-color: white;
-  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  /* border-radius: 50%; */
   position: absolute;
   pointer-events: none;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 }
 </style>

@@ -1,11 +1,10 @@
 <template>
-  <div class="container_list">
-    <node v-for="node in bug" :key="node"></node>
+  <div class="container_list" ref="container_list">
+    <node v-for="node in bug.to_array()" :key="node"> </node>
   </div>
 </template>
 
 <script>
-import { callWithErrorHandling } from "vue";
 import node from "./node.vue";
 
 //define the struct of node
@@ -29,46 +28,78 @@ class List {
     this.length = 0;
   }
 
-  AddNode(node) {
-    console.log("added a node to " + this);
-
-    if (!this.head) {
+  get_tail() {
+    while (!this.head) {
       this.head = new Node();
     }
 
-    while (this.tail.next) {
-      this.tail = this.tail.next;
+    const tail = this.head;
+    while (tail.next) {
+      tail = tail.next;
     }
-    this.tail.next = node;
-    this.length++;
+
+    return tail;
   }
 
   AddNode(number) {
-    for (let i = 0; i < number; i++) {
-      this.AddNode(new Node());
+    let tail = this.get_tail();
+
+    while (number-- > 0) {
+      const newNode = new Node();
+      tail.next = newNode;
+      this.tail = newNode;
+      console.log("added a node to " + this);
+
+      tail = tail.next;
     }
+
+    this.length += number;
   }
 
-  UpdateList(InformationMouse) {
-    const deltaX = InformationMouse.derectionX_mouse - this.head.derectionX;
-    const deltaY = InformationMouse.derectionY_mouse - this.head.derectionY;
-    const l = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const sin_sita = deltaY / l;
-    const cos_sita = deltaX / l;
+  // UpdateNode(node) {
+  //   const deltaX = InformationMouse.derectionX_mouse - this.head.derectionX;
+  //   const deltaY = InformationMouse.derectionY_mouse - this.head.derectionY;
+  //   const l = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  //   const sin_sita = deltaY / l;
+  //   const cos_sita = deltaX / l;
 
-    let current = this.head;
-    current.derectionX += cos_sita * 5;
-    current.derectionY += sin_sita * 5;
-    let current_ = current;
-    current = current.next;
-    while (current) {
-      current.derectionX = current_.derectionX + cos_sita * 5;
-      current.derectionY = current_.derectionY + sin_sita * 5;
-      current_ = current_.next;
-      current = current.next;
+  //   node.derectionX += cos_sita * 5;
+  //   node.derectionY += sin_sita * 5;
+  // }
+
+  // UpdateList(InformationMouse) {
+  //   const deltaX = InformationMouse.derectionX_mouse - this.head.derectionX;
+  //   const deltaY = InformationMouse.derectionY_mouse - this.head.derectionY;
+  //   const l = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  //   const sin_sita = deltaY / l;
+  //   const cos_sita = deltaX / l;
+
+  //   let current = this.head;
+  //   current.derectionX += cos_sita * 5;
+  //   current.derectionY += sin_sita * 5;
+  //   let current_ = current;
+  //   current = current.next;
+  //   while (current) {
+  //     current.derectionX = current_.derectionX + cos_sita * 5;
+  //     current.derectionY = current_.derectionY + sin_sita * 5;
+  //     current_ = current_.next;
+  //     current = current.next;
+  //   }
+
+  //   console.log("refreshed the list:" + this);
+  // }
+  update_list(derectionX_mouse, derectionY_mouse) {
+    const list = document.querySelector(".container_list");
+
+    for (let i = list.children.length - 1; i > 0; i--) {
+      const current_node = list.children[i];
+      const forhead_node = list.children[i - 1];
+      //update the position of node
+      current_node.style.left = forhead_node.style.left;
+      current_node.style.top = forhead_node.style.top;
     }
-
-    console.log("refreshed the list:" + this);
+    list.children[0].style.left = derectionX_mouse + "px";
+    list.children[0].style.top = derectionY_mouse + "px";
   }
 
   get_length() {
@@ -80,6 +111,16 @@ class List {
     }
     this.length = count;
     return count;
+  }
+
+  to_array() {
+    const arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current);
+      current = current.next;
+    }
+    return arr;
   }
 }
 
@@ -104,17 +145,43 @@ export default {
   },
 
   methods: {},
-  mounted() {
-    this.bug.AddNode(10);
 
-    let current = this.bug.head;
-    while (current) {
-      current.style = {
-        left: current.derectionX + "px",
-        top: current.derectionY + "px",
-      };
-      current = current.next;
-    }
+  computed: {
+    link_list_to_array() {
+      const arr = [];
+      let current = this.bug.head;
+      while (current) {
+        arr.push(current);
+        current = current.next;
+      }
+      return arr;
+    },
+  },
+
+  mounted() {
+    // this.bug.AddNode(10);
+
+    // let current = this.bug.head;
+    // while (current) {
+    //   current.style = {
+    //     left: current.derectionX + "px",
+    //     top: current.derectionY + "px",
+    //   };
+    //   current = current.next;
+    // }
+
+    // const list = this.$refs.container_list;
+    // console.log(list.children[1]);
+
+    this.bug.AddNode(20);
+
+    // window.addEventListener(
+    //   "mousemove",
+    //   this.bug.update_list(
+    //     this.InformationMouse.derectionX_mouse,
+    //     this.InformationMouse.derectionY_mouse
+    //   )
+    // );
 
     // setInterval(() => {
     //   this.bug.UpdateList(this.InformationMouse);
