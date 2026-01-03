@@ -1,12 +1,12 @@
 <template>
-    <div class="node"></div>
+  <div class="node"></div>
 </template>
 
 <style scoped>
 .node {
-    width: 2px;
-    height: 2px;
-    border-radius: 50%;
-    background-color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
 }
 </style>

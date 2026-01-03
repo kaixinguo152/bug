@@ -1,10 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container_list">
     <node v-for="node in bug" :key="node"></node>
   </div>
 </template>
 
 <script>
+import { callWithErrorHandling } from "vue";
 import node from "./node.vue";
 
 //define the struct of node
@@ -42,6 +43,12 @@ class List {
     this.length++;
   }
 
+  AddNode(number) {
+    for (let i = 0; i < number; i++) {
+      this.AddNode(new Node());
+    }
+  }
+
   UpdateList(InformationMouse) {
     const deltaX = InformationMouse.derectionX_mouse - this.head.derectionX;
     const deltaY = InformationMouse.derectionY_mouse - this.head.derectionY;
@@ -62,6 +69,17 @@ class List {
     }
 
     console.log("refreshed the list:" + this);
+  }
+
+  get_length() {
+    let current = this.head;
+    let count = 0;
+    while (current) {
+      count++;
+      current = current.next;
+    }
+    this.length = count;
+    return count;
   }
 }
 
@@ -87,22 +105,29 @@ export default {
 
   methods: {},
   mounted() {
-    for (let i = 0; i < 10; i++) {
-      this.bug.AddNode(new Node());
+    this.bug.AddNode(10);
+
+    let current = this.bug.head;
+    while (current) {
+      current.style = {
+        left: current.derectionX + "px",
+        top: current.derectionY + "px",
+      };
+      current = current.next;
     }
 
-    setInterval(() => {
-      this.bug.UpdateList(this.InformationMouse);
-    }, 500);
+    // setInterval(() => {
+    //   this.bug.UpdateList(this.InformationMouse);
+    // }, 500);
   },
 };
 </script>
 
 <style scoped>
-.container {
+.container_list {
   width: 100vw;
   height: 100vh;
-  background-color: green;
-  border: 5px solid red;
+  background-color: black;
+  border: 2px solid green;
 }
 </style>

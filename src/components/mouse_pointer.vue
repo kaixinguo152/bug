@@ -32,8 +32,8 @@ export default {
 
 <style scoped>
 .mouse_pointer {
-  width: 10px;
-  height: 10px;
+  width: 2px;
+  height: 2px;
   background-color: white;
   border-radius: 50%;
   position: absolute;
